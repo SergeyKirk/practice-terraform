@@ -1,0 +1,30 @@
+timeout: 1000s
+steps:
+- name: hashicorp/terraform:1.0.0
+  args:
+  - init
+  - -input=false
+- name: hashicorp/terraform:1.0.0
+  args:
+  - validate
+- name: hashicorp/terraform:1.0.0
+  args:
+  - plan
+  - -input=false
+  - -out=tfplan
+  - -lock=false
+- name: hashicorp/terraform:1.0.0
+  args:
+  - apply
+  - -auto-approve
+  - -input=false
+  - -lock=false
+#options:
+#  logging: CLOUD_LOGGING_ONLY
+
+
+
+#artifacts:
+#  objects:
+#    location: 'gs://619505538875.cloudbuild-logs.googleusercontent.com/log-05034395-5dd3-483e-9057-3feb667fa15f.txt'
+#    paths: ['cloudbuild-tf-apply.yaml', 'tfplan']
