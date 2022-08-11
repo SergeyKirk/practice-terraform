@@ -1,12 +1,12 @@
 locals {
-  joined_tags_vms = zipmap(var.vm_list, var.tag_list)
+
 }
 
 resource "google_compute_instance" "vms" {
   machine_type = "f1-micro"
-  for_each = local.joined_tags_vms
-  name        = each.key
-  tags = [each.value]
+  for_each = var.vms_tags
+  name        = each.value.name
+  tags = each.value.tags
 
   zone = "us-central1-a"
 
