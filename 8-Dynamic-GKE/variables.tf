@@ -97,10 +97,10 @@ variable "preemptible_nodes" {
   default     = false
 }
 
-variable "node_pool" {
-  description = "- (Optional) Name of node pool"
-  default     = "default-pool"
-}
+#variable "node_pool" {
+#  description = "- (Optional) Name of node pool"
+#  type = list(string)
+#}
 
 variable "gce_ssh_user" {
   description = "- (Optional) ssh user"
@@ -114,4 +114,12 @@ variable "gce_ssh_pub_key_file" {
 
 variable "private_nodes" {
   type = bool
+}
+
+variable "enable_private_endpoint" {
+  type = bool
+}
+
+variable "node_pools_separated_by_coma" {
+  type = string
 }

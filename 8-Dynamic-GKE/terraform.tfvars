@@ -1,4 +1,4 @@
-cluster_name = "cluster" # name of your cluster
+cluster_name = "cluster-1" # name of your cluster
 
 region                    = "us-central1-a"   # region you wanna deploy to
 project_id                = "eng-cell-351818" # your project id
@@ -18,3 +18,5 @@ master_ipv4_cidr_block    = "172.16.0.16/28"
 labels = {
   "label" = "label"
 }
+
+enable_private_endpoint = true

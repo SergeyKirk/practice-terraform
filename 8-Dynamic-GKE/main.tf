@@ -3,32 +3,7 @@ provider "google" {
   region  = var.region
 }
 
-#resource "google_container_cluster" "gke-cluster" {
-#  name               = var.cluster_name
-#  location           = var.location
-#  initial_node_count = var.initial_node_count
-#  network            = var.vpc_name
-#  subnetwork         = var.subnet_name
-#  networking_mode    = var.networking_mode
-#
-#  ip_allocation_policy {
-#    cluster_ipv4_cidr_block = var.cluster_ipv4_cidr_block
-#  }
-#
-#  node_config {
-#    service_account = var.service_account_id
-#    preemptible     = var.preemptible
-#    machine_type    = var.machine_type
-#    disk_size_gb    = var.disk_size_gb
-#    oauth_scopes    = var.oauth_scopes
-#  }
-#
-#  private_cluster_config {
-#    enable_private_nodes    = var.enable_private_nodes
-#    enable_private_endpoint = var.enable_private_endpoint
-#    # master_ipv4_cidr_block  = var.master_ipv4_cidr_block
-#  }
-#}
+#provider "kubernetes" {}
 
 data "google_container_engine_versions" "cluster_version" {
   location       = var.region
@@ -37,16 +12,14 @@ data "google_container_engine_versions" "cluster_version" {
 }
 
 resource "google_container_cluster" "gke_cluster" {
-  min_master_version = data.google_container_engine_versions.cluster_version.latest_node_version #This is the lastest version of the cluster_version variable
+  min_master_version = data.google_container_engine_versions.cluster_version.latest_node_version
   node_version       = data.google_container_engine_versions.cluster_version.latest_node_version
   name               = var.cluster_name
   network            = var.cluster_network
   subnetwork         = var.subnetwork
   location           = var.region
 
-  ip_allocation_policy {
-
-  }
+  ip_allocation_policy {}
 
   /* master_authorized_networks_config {
     cidr_blocks {
@@ -55,13 +28,20 @@ resource "google_container_cluster" "gke_cluster" {
     }
   } */
 
-  private_cluster_config {
-    enable_private_nodes    = true
-    enable_private_endpoint = false # If you wish to make this value then please uncomment the code from line number 20-24 as it is required when you enable private endpoint in GKE
-    master_ipv4_cidr_block  = var.master_ipv4_cidr_block
+  dynamic private_cluster_config {
+    for_each = var.private_nodes ? [1] : []
+
+    content {
+      enable_private_nodes    = var.private_nodes
+      enable_private_endpoint = var.enable_private_endpoint
+      master_ipv4_cidr_block  = var.master_ipv4_cidr_block
+    }
   }
-  node_pool {
-    name               = var.node_pool
+
+  dynamic node_pool {
+    for_each = local.node_pools
+    content {
+      name               = node_pool.value
     initial_node_count = var.cluster_node_count
     management {
       auto_repair  = var.auto_repair
@@ -83,5 +63,56 @@ resource "google_container_cluster" "gke_cluster" {
         disable-legacy-endpoints = "true"
       }
     }
+    }
+
   }
 }
+
+#resource "kubernetes_deployment" "deployment" {
+#  metadata {
+#    name = "example"
+#    labels = {
+#      test = "example"
+#    }
+#  }
+#
+#  spec {
+#    replicas = 3
+#
+#    selector {
+#      match_labels = {
+#        test = "example"
+#      }
+#    }
+#
+#    template {
+#      metadata {
+#        labels = {
+#          test = "example"
+#        }
+#      }
+#
+#      spec {
+#        container {
+#          image = "ubuntu/apache2"
+#          name  = "example"
+#
+#          #          liveness_probe {
+#          #            http_get {
+#          #              path = "/"
+#          #              port = 80
+#          #
+#          #              http_header {
+#          #                name  = "X-Custom-Header"
+#          #                value = "Awesome"
+#          #              }
+#          #            }
+#          #
+#          #            initial_delay_seconds = 3
+#          #            period_seconds        = 3
+#          #          }
+#        }
+#      }
+#    }
+#  }
+#}
