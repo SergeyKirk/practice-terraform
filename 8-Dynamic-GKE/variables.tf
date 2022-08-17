@@ -13,14 +13,14 @@ variable "cluster_node_count" {
   type        = string
   description = "- (Required) Number of nodes for the cluster."
 }
-variable "min_desired_count" {
-  type        = string
-  description = "- (Required) Number of minimum desired nodes for the cluster."
-}
-variable "max_desired_count" {
-  type        = string
-  description = "- (Required) Number of maximum desired nodes for the cluster."
-}
+#variable "min_desired_count" {
+#  type        = string
+#  description = "- (Required) Number of minimum desired nodes for the cluster."
+#}
+#variable "max_desired_count" {
+#  type        = string
+#  description = "- (Required) Number of maximum desired nodes for the cluster."
+#}
 
 variable "master_ipv4_cidr_block" {
   type        = string
@@ -49,38 +49,38 @@ variable "subnetwork" {
   description = "- (Optional) The name or self_link of the Google Compute Engine subnetwork in which the cluster's instances are launched."
 }
 
-variable "machine_type" {
-  type        = string
-  default     = "n1-standard-2"
-  description = "- (Optional) The name of a Google Compute Engine machine type. Defaults to n1-standard-1. "
-}
+#variable "machine_type" {
+#  type        = string
+#  default     = "n1-standard-2"
+#  description = "- (Optional) The name of a Google Compute Engine machine type. Defaults to n1-standard-1. "
+#}
+##
+#variable "labels" {
+#  description = "- (Optional) Key Value Pairs of Labels to add to the nodes in the pool"
+#  type        = map(any)
+#  default = {
+#    labels = "fuchicorp-project"
+#  }
+#}
 
-variable "labels" {
-  description = "- (Optional) Key Value Pairs of Labels to add to the nodes in the pool"
-  type        = map(any)
-  default = {
-    labels = "fuchicorp-project"
-  }
-}
+#variable "disk_size_in_gb" {
+#  description = "- (Optional) Disk size, in GB, for the nodes in the pool."
+#  default     = "10"
+#}
 
-variable "disk_size_in_gb" {
-  description = "- (Optional) Disk size, in GB, for the nodes in the pool."
-  default     = "10"
-}
-
-variable "image_type" {
-  default     = "COS"
-  description = "image type"
-}
-variable "auto_repair" {
-  description = "- (Optional) Whether the nodes will be automatically repaired"
-  default     = true
-}
-
-variable "auto_upgrade" {
-  description = "- (Optional) Whether the nodes will be automatically upgraded"
-  default     = false
-}
+#variable "image_type" {
+#  default     = "COS"
+#  description = "image type"
+#}
+#variable "auto_repair" {
+#  description = "- (Optional) Whether the nodes will be automatically repaired"
+#  default     = true
+#}
+#
+#variable "auto_upgrade" {
+#  description = "- (Optional) Whether the nodes will be automatically upgraded"
+#  default     = false
+#}
 
 variable "node_version" {
   description = "- (Optional) The name of the GKE cluster to bind this node pool."
@@ -92,10 +92,10 @@ variable "min_master_version" {
   default     = "1.17"
 }
 
-variable "preemptible_nodes" {
-  description = "- (Optional) Whether to use preemptible nodes"
-  default     = false
-}
+#variable "preemptible_nodes" {
+#  description = "- (Optional) Whether to use preemptible nodes"
+#  default     = false
+#}
 
 #variable "node_pool" {
 #  description = "- (Optional) Name of node pool"
@@ -113,13 +113,28 @@ variable "gce_ssh_pub_key_file" {
 }
 
 variable "private_nodes" {
-  type = bool
+  type    = bool
+  default = false
 }
 
 variable "enable_private_endpoint" {
   type = bool
 }
 
-variable "node_pools_separated_by_coma" {
-  type = string
+variable "node_pools" {
+  type = list(object({
+    name               = string
+    initial_node_count = number
+    management         = object({ auto_repair = bool, auto_upgrade = bool })
+    autoscaling        = object({ min_node_count = number, max_node_count = number })
+    node_config = object({
+      image_type      = string
+      disk_size_gb    = string
+      preemptible     = bool
+      machine_type    = string
+      labels          = map(any)
+      service_account = string
+      metadata        = object({ disable-legacy-endpoints = string })
+    })
+  }))
 }

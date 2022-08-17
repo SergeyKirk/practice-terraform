@@ -8,6 +8,6 @@ locals {
     {
       protocol = "tcp"
       ports = ["80", "8080"]
-    }]
-
+    }
+  ]
 }

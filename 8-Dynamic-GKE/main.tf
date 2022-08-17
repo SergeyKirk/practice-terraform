@@ -3,11 +3,9 @@ provider "google" {
   region  = var.region
 }
 
-#provider "kubernetes" {}
-
 data "google_container_engine_versions" "cluster_version" {
   location       = var.region
-  version_prefix = var.cluster_version
+#  version_prefix = var.cluster_version
   project        = var.project_id
 }
 
@@ -21,98 +19,45 @@ resource "google_container_cluster" "gke_cluster" {
 
   ip_allocation_policy {}
 
-  /* master_authorized_networks_config {
+  master_authorized_networks_config {
     cidr_blocks {
       cidr_block   = "10.0.1.0/24"
       display_name = "displayname"
     }
-  } */
+  }
 
   dynamic private_cluster_config {
-    for_each = var.private_nodes ? [1] : []
-
+    for_each = var.private_nodes ? [1]:[]
     content {
       enable_private_nodes    = var.private_nodes
       enable_private_endpoint = var.enable_private_endpoint
       master_ipv4_cidr_block  = var.master_ipv4_cidr_block
     }
+
   }
 
-  dynamic node_pool {
-    for_each = local.node_pools
+  dynamic "node_pool" {
+    for_each = var.node_pools
     content {
-      name               = node_pool.value
-    initial_node_count = var.cluster_node_count
-    management {
-      auto_repair  = var.auto_repair
-      auto_upgrade = var.auto_upgrade
-    }
-    autoscaling {
-      min_node_count = var.min_desired_count
-      max_node_count = var.max_desired_count
-    }
-    node_config {
-      image_type      = var.image_type
-      disk_size_gb    = var.disk_size_in_gb
-      preemptible     = var.preemptible_nodes
-      machine_type    = var.machine_type
-      labels          = var.labels
-      service_account = var.node_pool_service_account
-      metadata = {
-        /* ssh-keys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}" */
-        disable-legacy-endpoints = "true"
+      name               = node_pool.value.name
+      initial_node_count = node_pool.value.initial_node_count
+      management {
+        auto_repair  = node_pool.value.management.auto_repair
+        auto_upgrade = node_pool.value.management.auto_upgrade
+      }
+      autoscaling {
+        min_node_count = node_pool.value.autoscaling.min_node_count
+        max_node_count = node_pool.value.autoscaling.max_node_count
+      }
+      node_config {
+        image_type      = node_pool.value.node_config.image_type
+        disk_size_gb    = node_pool.value.node_config.disk_size_gb
+        preemptible     = node_pool.value.node_config.preemptible
+        machine_type    = node_pool.value.node_config.machine_type
+        labels          = node_pool.value.node_config.labels
+        service_account = node_pool.value.node_config.service_account
+        metadata        = node_pool.value.node_config.metadata
       }
     }
-    }
-
   }
 }
-
-#resource "kubernetes_deployment" "deployment" {
-#  metadata {
-#    name = "example"
-#    labels = {
-#      test = "example"
-#    }
-#  }
-#
-#  spec {
-#    replicas = 3
-#
-#    selector {
-#      match_labels = {
-#        test = "example"
-#      }
-#    }
-#
-#    template {
-#      metadata {
-#        labels = {
-#          test = "example"
-#        }
-#      }
-#
-#      spec {
-#        container {
-#          image = "ubuntu/apache2"
-#          name  = "example"
-#
-#          #          liveness_probe {
-#          #            http_get {
-#          #              path = "/"
-#          #              port = 80
-#          #
-#          #              http_header {
-#          #                name  = "X-Custom-Header"
-#          #                value = "Awesome"
-#          #              }
-#          #            }
-#          #
-#          #            initial_delay_seconds = 3
-#          #            period_seconds        = 3
-#          #          }
-#        }
-#      }
-#    }
-#  }
-#}

@@ -1,22 +1,79 @@
-cluster_name = "cluster-1" # name of your cluster
+cluster_name = "cluster-1"
 
-region                    = "us-central1-a"   # region you wanna deploy to
-project_id                = "eng-cell-351818" # your project id
-cluster_node_count        = "2"
-min_desired_count         = "2"
-max_desired_count         = "5"
-cluster_version           = "1.23"
-image_type                = "cos_containerd"
-disk_size_in_gb           = "10"
-machine_type              = "n1-standard-2"
+region             = "us-central1-a"
+project_id         = "eng-cell-351818"
+cluster_node_count = "2"
+#min_desired_count         = "2"
+#max_desired_count         = "5"
+cluster_version = "1.23"
+#image_type                = "cos_containerd"
+#disk_size_in_gb           = "10"
+#machine_type              = "n1-standard-2"
 node_pool_service_account = "terraform@eng-cell-351818.iam.gserviceaccount.com"
-auto_repair               = true
-auto_upgrade              = false
-gce_ssh_user              = "default-user"
-master_ipv4_cidr_block    = "172.16.0.16/28"
+#auto_repair               = true
+#auto_upgrade              = false
+gce_ssh_user           = "default-user"
+master_ipv4_cidr_block = "172.16.0.16/28"
 
-labels = {
-  "label" = "label"
-}
+#labels = {
+#  "label" = "label"
+#}
 
-enable_private_endpoint = true
+private_nodes = true
+enable_private_endpoint = false
+
+node_pools = [
+  {
+    name               = "pool1"
+    initial_node_count = 3
+    management = {
+      auto_repair  = true
+      auto_upgrade = true
+    }
+    autoscaling = {
+      min_node_count = 3
+      max_node_count = 3
+    }
+    node_config = {
+      image_type   = "cos_containerd"
+      disk_size_gb = "10"
+      preemptible  = false
+      machine_type = "n1-standard-2"
+      labels = {
+        test = "test"
+      }
+      service_account = "terraform@eng-cell-351818.iam.gserviceaccount.com"
+      metadata = {
+        /* ssh-keys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}" */
+        disable-legacy-endpoints = "true"
+      }
+    }
+  },
+  {
+    name               = "pool2"
+    initial_node_count = 2
+    management = {
+      auto_repair  = true
+      auto_upgrade = true
+    }
+    autoscaling = {
+      min_node_count = 2
+      max_node_count = 2
+    }
+    node_config = {
+      image_type   = "cos_containerd"
+      disk_size_gb = "10"
+      preemptible  = true
+      machine_type = "n1-standard-2"
+      labels = {
+        test = "mest"
+      }
+      service_account = "terraform@eng-cell-351818.iam.gserviceaccount.com"
+      metadata = {
+        /* ssh-keys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}" */
+        disable-legacy-endpoints = "true"
+      }
+    }
+  }
+
+]
