@@ -1,4 +1,4 @@
 output "network_name" {
-  value = local.vpc_name
+  value = var.vpc_network
 }
 

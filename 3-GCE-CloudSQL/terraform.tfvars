@@ -1,14 +1,13 @@
 region     = "us-central1"
-project_id = "sada-sergey-kirakosyan-sandbox"
+project_id = "eng-cell-351818"
 
-vpc_network_names = {
-  name1 = "vpc1"
-  name2 = "lol"
-}
+vpc_name = "default"
 
-firewall_rules_names = ["rule-ingress", "rule-egress"]
+firewall_rules_names = [
+  "rule-ingress"
+]
 
 instance_names = ["test-instance"]
 zone           = "us-central1-a"
-instance_type  = "f1-micro"
+instance_type  = "e2-medium"
 image          = "debian-10-buster-v20220719"

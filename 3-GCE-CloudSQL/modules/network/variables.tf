@@ -1,2 +1,2 @@
-variable "vpc_network_names" {}
+variable "vpc_network" {}
 variable "firewall_rules_names" {}

@@ -5,13 +5,13 @@ provider "google" {
 
 module "network" {
   source               = "./modules/network/"
-  vpc_network_names    = var.vpc_network_names
+  vpc_network          = var.vpc_name
   firewall_rules_names = var.firewall_rules_names
 }
 
 module "compute" {
   source         = "./modules/compute/"
-  network_name   = module.network.network_name
+  vpc_network    = module.network.network_name
   instance_names = var.instance_names
   zone           = var.zone
   instance_type  = var.instance_type

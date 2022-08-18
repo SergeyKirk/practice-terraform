@@ -3,11 +3,11 @@ locals {
   allow_rule = [
     {
       protocol = "tcp"
-      ports = ["443"]
+      ports    = ["443"]
     },
     {
       protocol = "tcp"
-      ports = ["80", "8080"]
+      ports    = ["80", "8080"]
     }
   ]
 }
