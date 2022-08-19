@@ -4,9 +4,8 @@ provider "google" {
 }
 
 data "google_container_engine_versions" "cluster_version" {
-  location       = var.region
-#  version_prefix = var.cluster_version
-  project        = var.project_id
+  location = var.region
+  project  = var.project_id
 }
 
 resource "google_container_cluster" "gke_cluster" {
@@ -26,8 +25,8 @@ resource "google_container_cluster" "gke_cluster" {
     }
   }
 
-  dynamic private_cluster_config {
-    for_each = var.private_nodes ? [1]:[]
+  dynamic "private_cluster_config" {
+    for_each = var.private_nodes ? [1] : []
     content {
       enable_private_nodes    = var.private_nodes
       enable_private_endpoint = var.enable_private_endpoint

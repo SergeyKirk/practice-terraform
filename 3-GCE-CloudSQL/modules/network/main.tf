@@ -7,8 +7,8 @@
 
 resource "google_compute_firewall" "ingress" {
   for_each = toset(var.firewall_rules_names)
-  name    = each.key
-  network = var.vpc_network
+  name     = each.key
+  network  = var.vpc_network
 
   allow {
     protocol = "all"

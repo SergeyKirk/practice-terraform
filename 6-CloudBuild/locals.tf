@@ -8,10 +8,10 @@ locals {
     {
       protocol = "tcp"
       ports    = ["80", "8080"]
-  },
+    },
     {
       protocol = "udp"
-      ports = ["1300"]
-    }]
+      ports    = ["1300"]
+  }]
 
 }

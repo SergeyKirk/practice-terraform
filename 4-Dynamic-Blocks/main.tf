@@ -11,7 +11,7 @@ resource "google_compute_firewall" "default" {
     for_each = local.allow_rule
     content {
       protocol = allow.value.protocol
-      ports = allow.value.ports
+      ports    = allow.value.ports
     }
   }
 

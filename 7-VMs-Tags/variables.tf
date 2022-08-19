@@ -15,5 +15,5 @@ variable "project_id" {
 #}
 
 variable "vms_tags" {
-  type = map(object({name = string, tags = list(string)}))
+  type = map(object({ name = string, tags = list(string) }))
 }

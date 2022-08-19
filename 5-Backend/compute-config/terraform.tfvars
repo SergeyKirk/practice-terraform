@@ -5,6 +5,6 @@ network = "default"
 
 instance_name = "test-instance"
 
-zone = "us-central1-a"
+zone          = "us-central1-a"
 instance_type = "f1-micro"
-image = "debian-10-buster-v20220719"
+image         = "debian-10-buster-v20220719"

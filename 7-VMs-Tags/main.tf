@@ -4,8 +4,8 @@ provider "google" {
 }
 
 module "compute" {
-  source   = "./modules/compute/"
-#  tag_list = var.tags
-#  vm_list  = var.vm_names
+  source = "./modules/compute/"
+  #  tag_list = var.tags
+  #  vm_list  = var.vm_names
   vms_tags = var.vms_tags
 }
