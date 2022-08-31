@@ -5,6 +5,7 @@ sudo setenforce 0
 sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 
 sudo modprobe br_netfilter
+# shellcheck disable=SC2024
 sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
@@ -16,6 +17,7 @@ sudo sed -i '/^ExecStart/ s/$/ --exec-opt native.cgroupdriver=systemd/' /usr/lib
 sudo systemctl daemon-reload
 sudo systemctl enable docker --now
 
+# shellcheck disable=SC2024
 sudo cat << EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes

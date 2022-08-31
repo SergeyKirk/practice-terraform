@@ -1,0 +1,9 @@
+vpc_network_name = "default"
+instance_names   = ["control-serg", "worker-serg"]
+zone             = "us-central1-a"
+region           = "us-central1"
+instance_type    = "e2-medium"
+image            = "ubuntu-1804-bionic-v20220824"
+project_id       = "vahan-dev"
+nat_addresses    = ["master-ip", "worker-ip"]
+disk_size        = 50

@@ -1,0 +1,14 @@
+---
+- name: Playbook
+  hosts: 34.136.113.50
+  become: yes
+  become_user: root
+  tasks:
+  - name: create a network
+    google.cloud.gcp_compute_network:
+      name: vpc
+      auto_create_subnetworks: 'true'
+      project: "vahan-dev"
+      auth_kind: serviceaccount
+      service_account_file: "/tmp/auth.pem"
+      state: present

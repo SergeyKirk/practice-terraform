@@ -1,8 +1,3 @@
-provider "google" {
-  project = var.project_id
-  region  = var.region
-}
-
 data "google_container_engine_versions" "cluster_version" {
   location = var.region
   project  = var.project_id
@@ -13,14 +8,14 @@ resource "google_container_cluster" "gke_cluster" {
   node_version       = data.google_container_engine_versions.cluster_version.latest_node_version
   name               = var.cluster_name
   network            = var.cluster_network
-  subnetwork         = var.subnetwork
-  location           = var.region
+  #  subnetwork         = var.subnetwork
+  location = var.region
 
   ip_allocation_policy {}
 
   master_authorized_networks_config {
     cidr_blocks {
-      cidr_block   = "10.0.1.0/24"
+      cidr_block   = "0.0.0.0/0"
       display_name = "displayname"
     }
   }
@@ -56,6 +51,14 @@ resource "google_container_cluster" "gke_cluster" {
         service_account = node_pool.value.node_config.service_account
         metadata        = node_pool.value.node_config.metadata
       }
+    }
+  }
+
+  provisioner "local-exec" {
+    working_dir = "/Users/sergey.kirakosyan/Documents/Coding/practice-terraform/10-Jenkins/modules/GKE/"
+    command     = "./startup.sh"
+    environment = {
+      CLUSTER = var.cluster_name
     }
   }
 }

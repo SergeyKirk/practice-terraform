@@ -5,6 +5,7 @@ sudo setenforce 0
 sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 
 sudo modprobe br_netfilter
+# shellcheck disable=SC2024
 sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
@@ -16,6 +17,7 @@ sudo sed -i '/^ExecStart/ s/$/ --exec-opt native.cgroupdriver=systemd/' /usr/lib
 sudo systemctl daemon-reload
 sudo systemctl enable docker --now
 
+# shellcheck disable=SC2024
 sudo cat << EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -32,11 +34,14 @@ sudo systemctl enable kubelet
 sudo rm /etc/containerd/config.toml
 sudo systemctl restart containerd
 
+# From here it's only for the Master Node
+
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
+mkdir -p "$HOME"/.kube
+sudo cp -i /etc/kubernetes/admin.conf "$HOME"/.kube/config
+# shellcheck disable=SC2046
+sudo chown $(id -u):$(id -g) "$HOME"/.kube/config
 
 sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 sudo kubeadm token create --print-join-command | tee /home/sergey_kirakosyan/join.txt
