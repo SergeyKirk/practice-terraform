@@ -26,7 +26,7 @@ resource "google_compute_instance" "master" {
     scopes = ["cloud-platform"]
   }
 
-  depends_on = [var.bucket]
+  depends_on              = [var.bucket]
   metadata_startup_script = file("${var.files_path}/modules/master/control.sh")
 
 }
