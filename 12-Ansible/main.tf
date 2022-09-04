@@ -30,3 +30,8 @@ module "worker" {
   mig_name           = var.mig_name
   base_instance_name = var.base_instance_name
 }
+
+module "load_balancer" {
+  source         = "./modules/load_balancer/"
+  instance_group = module.worker.instance_group
+}

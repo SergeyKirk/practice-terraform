@@ -1,4 +1,4 @@
-files_path = "/Users/sergey.kirakosyan/Documents/Coding/practice-terraform/"
+files_path = "/Users/sergey.kirakosyan/Documents/Coding/practice-terraform/12-Ansible/"
 
 zone       = "us-central1-a"
 region     = "us-central1"

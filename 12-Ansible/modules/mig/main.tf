@@ -34,8 +34,8 @@ resource "google_compute_instance_group_manager" "worker_servers" {
   target_size = 3
 
   named_port {
-    name = "customhttp"
-    port = 8888
+    name = "custom-http"
+    port = 80
   }
 
 }
