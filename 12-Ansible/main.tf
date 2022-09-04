@@ -32,6 +32,22 @@ module "worker" {
 }
 
 module "load_balancer" {
-  source         = "./modules/load_balancer/"
-  instance_group = module.worker.instance_group
+  source                                     = "./modules/load_balancer/"
+  instance_group                             = module.worker.instance_group
+  load_balancer_ip_name                      = var.load_balancer_ip_name
+  compute_global_forwarding_rule_name        = var.compute_global_forwarding_rule_name
+  compute_global_forwarding_rule_ip_protocol = var.compute_global_forwarding_rule_ip_protocol
+  load_balancing_scheme                      = var.load_balancing_scheme
+  forwarding_rule_port_range                 = var.forwarding_rule_port_range
+  backend_balancing_mode                     = var.backend_balancing_mode
+  backend_capacity_scaler                    = var.backend_capacity_scaler
+  backend_service_protocol                   = var.backend_service_protocol
+  compute_backend_service_name               = var.compute_backend_service_name
+  compute_health_check_name                  = var.compute_health_check_name
+  compute_target_http_proxy_name             = var.compute_target_http_proxy_name
+  compute_url_map_name                       = var.compute_url_map_name
+  enable_cdn                                 = var.enable_cdn
+  health_check_port_specification            = var.health_check_port_specification
+  port_name                                  = var.port_name
+  time_out                                   = var.time_out
 }
