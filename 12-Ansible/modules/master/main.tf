@@ -30,4 +30,3 @@ resource "google_compute_instance" "master" {
   metadata_startup_script = file("${var.files_path}/modules/master/control.sh")
 
 }
-

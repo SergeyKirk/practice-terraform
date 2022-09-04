@@ -19,9 +19,9 @@ base_instance_name = "worker-base"
 
 bucket_name = "ansible-playbook"
 
-load_balancer_ip_name               = "l7-xlb-static-ip"
-compute_global_forwarding_rule_name = "l7-xlb-forwarding-rule"
-compute_backend_service_name = "l7-xlb-backend-service"
+load_balancer_ip_name                      = "l7-xlb-static-ip"
+compute_global_forwarding_rule_name        = "l7-xlb-forwarding-rule"
+compute_backend_service_name               = "l7-xlb-backend-service"
 compute_global_forwarding_rule_ip_protocol = "TCP"
 load_balancing_scheme                      = "EXTERNAL"
 forwarding_rule_port_range                 = "80"

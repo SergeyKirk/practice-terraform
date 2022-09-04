@@ -1,5 +1,5 @@
 resource "google_compute_address" "worker_ip" {
-  name     = "worker-ip"
+  name   = "worker-ip"
   region = var.region
 }
 
@@ -16,7 +16,7 @@ resource "google_compute_instance" "worker" {
     }
   }
   service_account {
-    email = "jenkins-124@vahan-dev.iam.gserviceaccount.com"
+    email  = "jenkins-124@vahan-dev.iam.gserviceaccount.com"
     scopes = ["cloud-platform"]
   }
   network_interface {
@@ -25,5 +25,5 @@ resource "google_compute_instance" "worker" {
       nat_ip = google_compute_address.worker_ip.address
     }
   }
-#  metadata_startup_script = file("./modules/compute/worker.sh")
+  #  metadata_startup_script = file("./modules/compute/worker.sh")
 }

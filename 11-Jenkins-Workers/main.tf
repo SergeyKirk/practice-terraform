@@ -1,10 +1,10 @@
 resource "google_compute_address" "master_ip" {
-  name     = var.nat_addresses.0
+  name   = var.nat_addresses.0
   region = var.region
 }
 
 resource "google_compute_address" "worker_ip" {
-  name     = var.nat_addresses.1
+  name   = var.nat_addresses.1
   region = var.region
 }
 
@@ -59,5 +59,5 @@ resource "google_compute_instance" "worker" {
       nat_ip = google_compute_address.worker_ip.address
     }
   }
-#  metadata_startup_script = file("worker.sh")
+  #  metadata_startup_script = file("worker.sh")
 }

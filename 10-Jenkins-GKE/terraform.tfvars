@@ -44,4 +44,4 @@ instance_type = "e2-medium"
 image         = "centos-7-v20220822"
 project_id    = "vahan-dev"
 disk_size     = 50
-machine_type = "e2-medium"
+machine_type  = "e2-medium"

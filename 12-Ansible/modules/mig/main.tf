@@ -37,5 +37,4 @@ resource "google_compute_instance_group_manager" "worker_servers" {
     name = "custom-http"
     port = 80
   }
-
 }
