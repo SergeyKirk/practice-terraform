@@ -1,3 +1,5 @@
+files_path = "/Users/sergey.kirakosyan/Documents/Coding/practice-terraform/"
+
 zone       = "us-central1-a"
 region     = "us-central1"
 project_id = "vahan-dev"
@@ -14,3 +16,5 @@ master_service_account_email = "ansible-466@vahan-dev.iam.gserviceaccount.com"
 template_name      = "worker-template"
 mig_name           = "worker-mig"
 base_instance_name = "worker-base"
+
+bucket_name = "ansible-playbook"

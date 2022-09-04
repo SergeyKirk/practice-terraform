@@ -1,6 +1,7 @@
-provider "google" {
-  region  = var.region
-  project = var.project_id
+module "storage" {
+  source = "./modules/bucket/"
+  bucket_name = var.bucket_name
+  files_path = var.files_path
 }
 
 module "master" {
@@ -15,6 +16,8 @@ module "master" {
   service_account_email = var.master_service_account_email
   vpc_network_name      = var.vpc_network_name
   zone                  = var.zone
+  bucket = module.storage.bucket
+  files_path = var.files_path
 }
 
 module "worker" {
