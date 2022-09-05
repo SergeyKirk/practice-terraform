@@ -31,7 +31,7 @@ resource "google_compute_instance_group_manager" "worker_servers" {
     instance_template = google_compute_instance_template.ansible_worker.id
   }
 
-  target_size = 3
+  target_size = var.mig_target_size
 
   named_port {
     name = "custom-http"

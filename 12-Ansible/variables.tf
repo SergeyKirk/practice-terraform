@@ -68,6 +68,12 @@ variable "bucket_name" {
   description = "The name of the bucket to deploy to"
 }
 
+variable "bucket_region" {
+    type        = string
+    description = "The region of the bucket to deploy to"
+}
+
+
 variable "load_balancer_ip_name" {
   type        = string
   description = "The name of the load balancer IP to deploy to"
@@ -146,4 +152,9 @@ variable "compute_health_check_name" {
 variable "health_check_port_specification" {
   type        = string
   description = "Health check port specification"
+}
+
+variable "mig_target_size" {
+  type        = number
+  description = "MIG target size"
 }

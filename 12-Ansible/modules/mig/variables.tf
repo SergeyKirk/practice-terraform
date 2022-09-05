@@ -28,3 +28,8 @@ variable "vpc_network_name" {
     type = string
     description = "Name of the VPC network"
 }
+
+variable "mig_target_size" {
+  type        = number
+  description = "MIG target size"
+}
