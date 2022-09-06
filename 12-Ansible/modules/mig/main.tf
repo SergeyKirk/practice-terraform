@@ -1,17 +1,17 @@
 resource "google_compute_instance_template" "ansible_worker" {
   name           = var.template_name
   machine_type   = var.instance_type
-  can_ip_forward = false
+  can_ip_forward = var.can_ip_forward
 
   scheduling {
-    automatic_restart   = true
-    on_host_maintenance = "MIGRATE"
+    automatic_restart   = var.scheduling_automatic_restart
+    on_host_maintenance = var.on_host_maintenance
   }
 
   disk {
     source_image = var.image
-    auto_delete  = true
-    boot         = true
+    auto_delete  = var.disk_auto_delete
+    boot         = var.disk_boot
   }
 
   network_interface {
@@ -34,7 +34,7 @@ resource "google_compute_instance_group_manager" "worker_servers" {
   target_size = var.mig_target_size
 
   named_port {
-    name = "custom-http"
-    port = 80
+    name = var.port_name
+    port = var.port
   }
 }

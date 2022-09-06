@@ -38,3 +38,38 @@ variable "region" {
   type        = string
   description = "The region to deploy to"
 }
+
+variable "on_host_maintenance" {
+  type        = string
+  description = "On host maintenance"
+}
+
+variable "port_name" {
+  type        = string
+  description = "Port name"
+}
+
+variable "port" {
+    type        = number
+    description = "Port"
+}
+
+variable "disk_auto_delete" {
+    type        = bool
+    description = "Disk auto delete"
+}
+
+variable "disk_boot" {
+    type        = bool
+    description = "Disk boot"
+}
+
+variable "scheduling_automatic_restart" {
+    type        = bool
+    description = "Scheduling automatic restart"
+}
+
+variable "can_ip_forward" {
+    type        = bool
+    description = "Can ip forward"
+}
