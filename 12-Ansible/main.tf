@@ -32,6 +32,13 @@ module "worker" {
   base_instance_name = var.base_instance_name
   mig_target_size    = var.mig_target_size
   region             = var.region
+  can_ip_forward     = var.can_ip_forward
+  disk_auto_delete   = var.disk_auto_delete
+  disk_boot          = var.disk_boot
+  on_host_maintenance = var.on_host_maintenance
+  port = var.port
+  port_name = var.port_name
+  scheduling_automatic_restart = var.scheduling_automatic_restart
 }
 
 module "load_balancer" {
