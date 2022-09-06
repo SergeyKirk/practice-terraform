@@ -1,7 +1,7 @@
 module "storage" {
-  source      = "./modules/bucket/"
-  bucket_name = var.bucket_name
-  files_path  = var.files_path
+  source        = "./modules/bucket/"
+  bucket_name   = var.bucket_name
+  files_path    = var.files_path
   bucket_region = var.bucket_region
 }
 
@@ -31,6 +31,7 @@ module "worker" {
   mig_name           = var.mig_name
   base_instance_name = var.base_instance_name
   mig_target_size    = var.mig_target_size
+  region             = var.region
 }
 
 module "load_balancer" {

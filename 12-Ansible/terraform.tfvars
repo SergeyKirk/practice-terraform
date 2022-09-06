@@ -17,7 +17,7 @@ template_name      = "worker-template"
 mig_name           = "worker-mig"
 base_instance_name = "worker-base"
 
-bucket_name = "ansible-playbook"
+bucket_name   = "ansible-playbook"
 bucket_region = "US"
 
 load_balancer_ip_name                      = "l7-xlb-static-ip"
@@ -36,4 +36,4 @@ backend_balancing_mode                     = "UTILIZATION"
 backend_capacity_scaler                    = 1.0
 compute_health_check_name                  = "l7-xlb-health-check"
 health_check_port_specification            = "USE_SERVING_PORT"
-mig_target_size = 3
+mig_target_size                            = 3

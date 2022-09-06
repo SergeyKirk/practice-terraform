@@ -27,6 +27,25 @@ resource "google_compute_instance" "master" {
   }
 
   depends_on              = [var.bucket]
-  metadata_startup_script = file("${var.files_path}/modules/master/control.sh")
+#  metadata_startup_script = file("${var.files_path}/modules/master/password_setup.sh")
+
+  connection {
+    type     = "ssh"
+    user     = "root"
+    host     = google_compute_address.master_ip.address
+#    password = "root"
+  }
+
+  provisioner "file" {
+    source      = "${var.files_path}/modules/master/control.sh"
+    destination = "/tmp/control.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/control.sh",
+      "/tmp/control.sh"
+    ]
+  }
 
 }

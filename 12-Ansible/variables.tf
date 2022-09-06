@@ -69,8 +69,8 @@ variable "bucket_name" {
 }
 
 variable "bucket_region" {
-    type        = string
-    description = "The region of the bucket to deploy to"
+  type        = string
+  description = "The region of the bucket to deploy to"
 }
 
 
