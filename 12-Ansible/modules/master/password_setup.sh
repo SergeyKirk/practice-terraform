@@ -1,1 +1,0 @@
-sudo chpasswd <<<"root:root"
